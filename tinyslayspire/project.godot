@@ -15,6 +15,10 @@ run/main_scene="uid://bopv1bpmh2hhf"
 config/features=PackedStringArray("4.4", "Forward Plus")
 config/icon="uid://b0muqeu1sic6b"
 
+[autoload]
+
+Events="*res://global/events.gd"
+
 [display]
 
 window/size/viewport_width=256
@@ -22,6 +26,15 @@ window/size/viewport_height=144
 window/size/window_width_override=1280
 window/size/window_height_override=720
 window/stretch/mode="viewport"
+
+[file_customization]
+
+folder_colors={
+"res://art/": "red",
+"res://characters/": "red",
+"res://custom_resources/": "red",
+"res://themes/": "red"
+}
 
 [input]
 
@@ -40,6 +53,7 @@ right_mouse={
 
 2d_physics/layer_1="card_target_selector"
 2d_physics/layer_2="card_drop_area"
+2d_physics/layer_3="enemies"
 
 [rendering]
 

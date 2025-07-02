@@ -25,9 +25,15 @@ func exit() -> void:
 
 # state callback
 func on_input(_event: InputEvent) -> void: # 任何全局输入事件
+	var single_targeted := card_ui.card.is_single_targeted()
 	var mouse_motion :=  _event is InputEventMouseMotion
 	var cancel  = _event.is_action_pressed("right_mouse")
 	var confirm = _event.is_action_released("left_mouse") or _event.is_action_pressed("left_mouse")
+	
+	# 单体攻击卡 + 鼠标移动 + 存在target（只能是drop_area）
+	if single_targeted and mouse_motion and card_ui.targets.size() > 0:
+		transition_requested.emit(self, CardState.State.AIMING)
+		return
 	
 	if mouse_motion:
 		card_ui.global_position = card_ui.get_global_mouse_position() - card_ui.pivot_offset

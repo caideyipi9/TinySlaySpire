@@ -5,6 +5,10 @@ func enter() -> void:
 	# 该模块控制最高父节点的状态，必须等到card_ui准备好
 	if not card_ui.is_node_ready():
 		await card_ui.ready
+		
+	# 防止tween动画播放太长导致base状态的卡片不能及时归位
+	if card_ui.tween and card_ui.tween.is_running():
+		card_ui.tween.kill()
 	
 	card_ui.reparent_requested.emit(card_ui) # 重新父化当前卡片!!!如dragging后
 	card_ui.pivot_offset = Vector2.ZERO # 旋转中心偏移量，决定鼠标和卡片的位置关系

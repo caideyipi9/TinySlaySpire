@@ -3,6 +3,8 @@ extends Control
 
 signal reparent_requested(which_card_ui: CardUI) # 状态可以重新父化卡片，防止受限于Hand框内
 
+@export var card: Card
+
 @onready var drop_point_detector: Area2D = $DropPointDetector
 @onready var card_state_machine: CardStateMachine = $CardStateMachine as CardStateMachine
 
@@ -10,6 +12,9 @@ signal reparent_requested(which_card_ui: CardUI) # 状态可以重新父化卡�
 @onready var Dstate: Label = $DState
 
 @onready var targets: Array[Node] = [] # 存储当前卡片的所有目标,如碰撞区域、敌人等
+
+var parent: Control
+var tween: Tween
 
 func _ready() -> void:
 	card_state_machine.init(self)
@@ -36,3 +41,7 @@ func _on_drop_point_detector_area_entered(area: Area2D) -> void:
 func _on_drop_point_detector_area_exited(area: Area2D) -> void:
 	if targets.has(area):
 		targets.erase(area)
+		
+func animate_to_position(next_pos: Vector2, duration: float) -> void:
+	tween = create_tween().set_trans(Tween.TRANS_CIRC).set_ease(Tween.EASE_OUT)
+	tween.tween_property(self, "global_position", next_pos, duration)
